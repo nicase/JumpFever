@@ -21,10 +21,11 @@ class Platform {
     }
 
     show() {
+        let d = new drawTool("mycanvas")
         d.rectangle(this.x, this.y, this.w, this.h, {color: "black"})
     }
 }
 
 d.translate(d.width/2, d.height/2)
 const p = new Platform(0,0, 100)
-p.show()
+// p.show()

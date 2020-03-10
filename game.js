@@ -3,15 +3,10 @@ const d = new drawTool("mycanvas")
 class Game {
     constructor(seed) {
         this.me = new Player()
-        this.ids = ids
         this.seed = seed
         
         // Control de tecles
-        this.keys = {}
-        onkeydown = onkeyup = function(e){
-            e = e || event
-            this.keys[e.keyCode] = e.type == 'keydown'
-        }
+        
     }
 
     start() {
@@ -21,7 +16,7 @@ class Game {
         this.generateWalls()
         
 
-        d.setInterval(this.update, 10)
+        d.setInterval(updateAll, 10)
     }
 
     update() {
@@ -44,15 +39,15 @@ class Game {
 
     checkKeys() {
         // Up
-        if (this.keys[38]) {
+        if (keys[38]) {
             this.me.jump()
         }
         // Left
-        if (this.keys[37]) {
+        if (keys[37]) {
             this.me.moveLeft()
         }
         // Right
-        if (this.keys[39]) {
+        if (keys[39]) {
             this.me.moveRight()
         }
     }
@@ -60,3 +55,13 @@ class Game {
 
 g = new Game(4545)
 g.start()
+
+keys = {}
+onkeydown = onkeyup = function(e){
+    e = e || event
+    keys[e.keyCode] = e.type == 'keydown'
+}
+
+function updateAll() {
+    g.update()
+}
