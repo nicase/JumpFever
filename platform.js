@@ -68,8 +68,8 @@ class Platform {
         let y1 = this.y + this.h/2
         let y2 = this.y - this.h/2
 
-        this.walls = [new Walls(x1, y1, x2, y1), new Walls(x2, y1, x2, y2),
-                      new Walls(x2, y2, x1, y2), new Walls(x1, y2, x1, y1)]
+        this.walls = [new Wall(x1, y1, x2, y1), new Wall(x2, y1, x2, y2),
+                      new Wall(x2, y2, x1, y2), new Wall(x1, y2, x1, y1)]
     }
 
     show() {

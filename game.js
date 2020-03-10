@@ -12,25 +12,13 @@ class Game {
         for (let i = 0; i < this.others.length; ++i) {
             this.players.push(new Player(this.others[i]))
         }
+
+
     }
 
-    checkKeys() {
-        // Up
-        if (keys[38]) {
-            this.me.jump()
-        }
-        // Left
-        if (keys[37]) {
-            this.me.moveLeft()
-        }
-        // Right
-        if (keys[39]) {
-            this.me.moveRight()
-        }
-    }
 
     update() {
-        this.checkKeys()
+        checkKeys()
         d.clearAll()
         this.checkCollisions()
         this.me.update()
@@ -59,24 +47,44 @@ class Game {
         // Comprovar collisions de me
         //this.me.isGrounded = true | false
 
-        // for (i = 0; i < this.platforms.length; ++i) {
-        //     let p = this.platforms[i]
-        //     if (this.me.collides(p)) return true;
-        // }
+        for (let i = 0; i < this.platforms.length; ++i) {
+            let p = this.platforms[i]
+            if (this.me.isCollision(p)) return true;
+        }
         return false;
 
     }
 
 }
 
-g = new Game(4545, [1])
-g.start()
+var keys = {}
 
-keys = {}
 onkeydown = onkeyup = function(e){
     e = e || event
     keys[e.keyCode] = e.type == 'keydown'
+    console.log(e.keyCode)
 }
 
+function checkKeys() {
+    // Up
+    if (keys[38]) {
+        console.log('hafdb')
+        g.me.jump()
+    }
+    // Left
+    if (keys[37]) {
+        g.me.moveLeft()
+    }
+    // Right
+    if (keys[39]) {
+        console.log("Right")
+        g.me.moveRight()
+    }
+}
+
+let g = new Game(4545, [1])
+g.start()
+
+var updateAll = () => g.update()
 const d = new drawTool("mycanvas")
-d.setInterval(g.update(), 10)
+d.setInterval(updateAll, 10)

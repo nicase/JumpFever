@@ -10,17 +10,26 @@ class Player{
         this.velX = 0.0;
         this.velY = 0.0;
 
+        
         this.isGrounded = true;
 
         this.w = 25;
         this.h = 40;
+        this.ty = this.posY - this.h/4; //top y
+        this.lx = this.posX - this.w/2; //left x
+        this.by = this.posY + 3*this.h/4 //bot y
+        this.rx = this.posX + this.w/2 //right x
+
 
         this.gravity = 0.05;
+        // [0] TOP LEFT - RIGHT [1] TOP RIGHT - BOT [2] BOT RIGHT - LEFT [3] BOT RIGHT - TOP
+        this.walls = [new Wall(this.lx, this.ty, this.rx, this.ty), new Wall(this.rx, this.ty, this.rx, this.by),
+            new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.by, this.lx, this.ty)]
     }
     
     show() {
         const d = new drawTool("mycanvas");
-        //d.translate(0, d.height/2)
+        d.translate(0, d.height);
         //console.log("show")
         //console.log(this.posX)
         d.rectangle(this.posX, this.posY, this.w, this.h/2, {color: "#FCD0B4"});
@@ -47,9 +56,12 @@ class Player{
         this.velX -= 0.6;
     }
 
-    isCollision() {
+    isCollision(platform) {
 
-        return true;
+        for (let i = 0; i < this.walls.length; ++i) {
+            if (platform.isCollision(this.walls[i])) return true;
+        }
+        return false;
     }
 
 
