@@ -74,7 +74,6 @@ class Platform {
 
     show() {
         let d = new drawTool("mycanvas")
-        d.translate(0, d.height)
         d.rectangle(this.x, this.y, this.w, this.h, {color: "black"})
     }
 }

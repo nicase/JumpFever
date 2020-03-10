@@ -62,7 +62,6 @@ var keys = {}
 onkeydown = onkeyup = function(e){
     e = e || event
     keys[e.keyCode] = e.type == 'keydown'
-    console.log(e.keyCode)
 }
 
 function checkKeys() {
@@ -82,9 +81,10 @@ function checkKeys() {
     }
 }
 
+const d = new drawTool("mycanvas")
+
 let g = new Game(4545, [1])
 g.start()
-
 var updateAll = () => g.update()
-const d = new drawTool("mycanvas")
+
 d.setInterval(updateAll, 10)

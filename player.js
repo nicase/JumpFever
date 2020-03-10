@@ -3,8 +3,13 @@ class Player{
     constructor(id) {
 
         if (id) this.id = id;
-        this.posX = 0.0;
-        this.posY = 0.0;
+        
+        this.w = 25;
+        this.h = 40;
+
+        this.posX = 0.0 + this.w/2;
+        let canv = new drawTool("mycanvas")
+        this.posY = 0.0 - 3*this.h/4 + canv.height;
         this.accX = 0.0;
         this.accY = 0.0;
         this.velX = 0.0;
@@ -13,8 +18,6 @@ class Player{
         
         this.isGrounded = true;
 
-        this.w = 25;
-        this.h = 40;
         this.ty = this.posY - this.h/4; //top y
         this.lx = this.posX - this.w/2; //left x
         this.by = this.posY + 3*this.h/4 //bot y
@@ -28,16 +31,15 @@ class Player{
     }
     
     show() {
-        const d = new drawTool("mycanvas");
-        d.translate(0, d.height);
+        const dt = new drawTool("mycanvas");
         //console.log("show")
         //console.log(this.posX)
-        d.rectangle(this.posX, this.posY, this.w, this.h/2, {color: "#FCD0B4"});
-        d.rectangle(this.posX,this.posY + this.h/2, this.w, this.h/2, {color: "#FF0202"})
+        console.log("show " + this.posX + " " + this.posY) 
+        dt.rectangle(this.posX, this.posY, this.w, this.h/2, {color: "#FCD0B4"});
+        dt.rectangle(this.posX,this.posY + this.h/2, this.w, this.h/2, {color: "#FF0202"})
 
-        d.rectangle(this.posX - 5, this.posY - 1, 4, 4);
-        d.rectangle(this.posX + 5, this.posY - 1, 4, 4);
-        //d.rectangle()
+        dt.rectangle(this.posX - 5, this.posY - 1, 4, 4);
+        dt.rectangle(this.posX + 5, this.posY - 1, 4, 4);
     }
 
     jump() {
@@ -66,7 +68,7 @@ class Player{
 
 
     update() {
-        //if (!this.isCollision()) this.accY -= 1.0;
+        // if (!this.isCollision()) this.accY -= 1.0;
 
         if (this.velX > 0) this.velX -= 0.2;
         if (this.velX < 0) this.velX += 0.2;
@@ -76,15 +78,14 @@ class Player{
         this.velY += this.accY;
         this.posY += this.velY;
 
-        if (!this.isGrounded) this.accY += this.gravity;
-        if (this.posY >= 0) {
+        //if (!this.isGrounded) this.accY += this.gravity;
+        /*if (this.posY >= 0) {
             this.velY = 0
             this.posY = 0
             this.accY = 0
             this.isGrounded = true;
-        }
+        }*/
 
-        console.log(this.posX);
         this.show();
     }
 
