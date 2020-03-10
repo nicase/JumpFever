@@ -77,13 +77,4 @@ class Platform {
         d.translate(0, d.height)
         d.rectangle(this.x, this.y, this.w, this.h, {color: "black"})
     }
-
-    isCollision(p) {
-
-        maxY = p.posY - p.h/2;
-        minY = p.posY + p.h/2;
-
-        if ((this.y + h/2) > maxY) return true;
-        if ((this.y - h/2) < min Y) 
-    }
 }

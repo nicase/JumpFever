@@ -42,7 +42,16 @@ class Game {
     }
 
     generateWalls() {
+        var random = (s) => {
+            var x = Math.sin(s++) * 10000;
+            return x - Math.floor(x);
+        }
         this.platforms = []
+        this.randomVec = []
+        for (let i = 0; i < 50; ++i) 
+            this.randomVec.push(random(i)*random(this.seed))
+        
+        console.log(this.randomVec)
 
     }
 
@@ -50,9 +59,10 @@ class Game {
         // Comprovar collisions de me
         //this.me.isGrounded = true | false
 
-        for (i = 0; i < this.platforms.length; ++i) {
-            if (this.platforms[i].isCollision(this.me)) return true;
-        }
+        // for (i = 0; i < this.platforms.length; ++i) {
+        //     let p = this.platforms[i]
+        //     if (this.me.collides(p)) return true;
+        // }
         return false;
 
     }
@@ -68,10 +78,5 @@ onkeydown = onkeyup = function(e){
     keys[e.keyCode] = e.type == 'keydown'
 }
 
-function updateAll() {
-    g.update()
-}
-
 const d = new drawTool("mycanvas")
-d.translate(0, d.height)
 d.setInterval(g.update(), 10)
