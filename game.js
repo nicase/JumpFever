@@ -49,7 +49,11 @@ class Game {
     checkCollisions() {
         // Comprovar collisions de me
         //this.me.isGrounded = true | false
-        
+
+        for (i = 0; i < this.platforms.length; ++i) {
+            if (this.platforms[i].isCollision(this.me)) return true;
+        }
+        return false;
 
     }
 
