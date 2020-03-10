@@ -19,25 +19,29 @@ class Game {
         // Up
         if (keys[38]) {
             this.me.jump()
+            console.log("jump")
         }
         // Left
         if (keys[37]) {
             this.me.moveLeft()
+            console.log("left")
         }
         // Right
         if (keys[39]) {
             this.me.moveRight()
+            console.log("right")
         }
     }
 
     update() {
         this.checkKeys()
-        
-        for (let i = 0; i < this.n; ++i) {
-            let p = this.players[i]
-            p.update()
-            this.checkCollisions(p)
-        }
+        d.clearAll()
+        this.me.show()
+        // for (let i = 0; i < this.n; ++i) {
+        //     let p = this.players[i]
+        //     p.update()
+        //     this.checkCollisions(p)
+        // }
         
     }
 
