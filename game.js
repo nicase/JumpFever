@@ -3,7 +3,6 @@ const d = new drawTool("mycanvas")
 class Game {
     constructor(seed) {
         this.me = new Player()
-        this.ids = ids
         this.seed = seed
         
         // Control de tecles
@@ -24,8 +23,24 @@ class Game {
         d.setInterval(this.update, 10)
     }
 
+    checkKeys() {
+        // Up
+        if (this.keys[38]) {
+            this.me.jump()
+        }
+        // Left
+        if (this.keys[37]) {
+            this.me.moveLeft()
+        }
+        // Right
+        if (this.keys[39]) {
+            this.me.moveRight()
+        }
+    }
+
     update() {
         this.checkKeys()
+        
         for (let i = 0; i < this.n; ++i) {
             let p = this.players[i]
             p.update()
@@ -42,20 +57,7 @@ class Game {
         // TODO:
     }
 
-    checkKeys() {
-        // Up
-        if (this.keys[38]) {
-            this.me.jump()
-        }
-        // Left
-        if (this.keys[37]) {
-            this.me.moveLeft()
-        }
-        // Right
-        if (this.keys[39]) {
-            this.me.moveRight()
-        }
-    }
+
 }
 
 g = new Game(4545)
