@@ -6,7 +6,7 @@ class Game {
     }
 
     method() {
-
+        
     }
 
 
