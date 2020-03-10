@@ -51,7 +51,8 @@ class Game {
         //this.me.isGrounded = true | false
 
         for (i = 0; i < this.platforms.length; ++i) {
-            if (this.platforms[i].isCollision(this.me)) return true;
+            let p = this.platforms[i]
+            if (this.me.isCollision(p)) return true;
         }
         return false;
 
