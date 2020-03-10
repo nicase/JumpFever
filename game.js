@@ -10,31 +10,9 @@ class Game {
     }
 
     start() {
-        for (let i = 0; i < this.n; ++i) {
-            this.players.push(new Player(ids[i]))
-        }
         this.generateWalls()
-        
 
         d.setInterval(updateAll, 10)
-    }
-
-    update() {
-        this.checkKeys()
-        for (let i = 0; i < this.n; ++i) {
-            let p = this.players[i]
-            p.update()
-            this.checkCollisions(p)
-        }
-        
-    }
-
-    generateWalls() {
-
-    }
-
-    checkCollisions(p) {
-        // TODO:
     }
 
     checkKeys() {
@@ -51,6 +29,26 @@ class Game {
             this.me.moveRight()
         }
     }
+
+    update() {
+        this.checkKeys()
+        
+        for (let i = 0; i < this.n; ++i) {
+            let p = this.players[i]
+            p.update()
+            this.checkCollisions(p)
+        }
+        
+    }
+
+    generateWalls() {
+
+    }
+
+    checkCollisions(p) {
+        // TODO:
+    }
+
 }
 
 g = new Game(4545)
