@@ -1,8 +1,8 @@
 const d = new drawTool("mycanvas")
 
 class Game {
-    constructor(n, ids, seed) {
-        this.me
+    constructor(seed) {
+        this.me = new Player()
         this.ids = ids
         this.seed = seed
         
@@ -58,5 +58,5 @@ class Game {
     }
 }
 
-g = new Game(2, [1,2], 4545)
+g = new Game(4545)
 g.start()
