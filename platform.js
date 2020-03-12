@@ -55,6 +55,11 @@ class Wall {
         if (this.contained(dot) && w.contained(dot)) return dot;
         else return undefined;
     }
+
+    show() {
+        const dt = new drawTool("mycanvas");
+        dt.line(this.x1,this.y1,this.x2,this.y2, {width: 3})
+    }
 }
 
 class Platform {
@@ -70,6 +75,13 @@ class Platform {
 
         this.walls = [new Wall(x1, y1, x2, y1), new Wall(x2, y1, x2, y2),
                       new Wall(x2, y2, x1, y2), new Wall(x1, y2, x1, y1)]
+    }
+
+    isCollision(w) {
+        for (let i = 0; i < this.walls.length; ++i) {
+            if (this.walls[i].intersection(w) != undefined) return true;
+        }
+        return false;
     }
 
     show() {

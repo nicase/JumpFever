@@ -143,12 +143,13 @@ class Game {
     checkCollisions() {
         // Comprovar collisions de me
         //this.me.isGrounded = true | false
-
+        //console.log("hola")
         for (let i = 0; i < this.platforms.length; ++i) {
             let p = this.platforms[i]
-            //if (this.me.isCollision(p)) return true;
+            if (this.me.isCollision(p)) return;
         }
-        return false;
+
+
     }
 }
 
