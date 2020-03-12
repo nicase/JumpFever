@@ -9,7 +9,8 @@ class Game {
         let oneWidth = 150
         let twoWidth = 100
         let threeWidth = 100
-        
+        this.frame = 0
+
         this.oneBlock = [ 
             // One block
             [[d.width/10, oneWidth]],
@@ -66,6 +67,7 @@ class Game {
     }
 
     start() {
+        this.frame = 0
         this.generatePlatforms()
         for (let i = 0; i < this.others.length; ++i) {
             this.players.push(new Player(this.others[i]))
@@ -73,6 +75,7 @@ class Game {
     }
 
     update() {
+        this.frame += 1
         checkKeys()
         d.clearAll()
         this.drawPlatforms()
@@ -91,7 +94,7 @@ class Game {
         }
         // Posem terra inicial
         let gap = 100
-        this.platforms = [[new Platform(d.width/2, d.height - gap, d.width)]]
+        this.platforms = [[new Platform(d.width/2, d.height, d.width)]]
 
         var neg = (r) => {
             if (r > 0.5) return 1
@@ -113,7 +116,7 @@ class Game {
             
             let blocks = []
             for (let x = 0; x < level.length; ++x) {
-                blocks.push(new Platform(level[x][0], d.height -gap*i, level[x][1]))
+                blocks.push(new Platform(level[x][0], d.height - gap*(i + 2), level[x][1]))
             }
 
             this.platforms.push(blocks)
@@ -127,11 +130,13 @@ class Game {
             let level = this.platforms[i]
             for (let j = 0; j < level.length; ++j) {
                 let current = level[j]
-                current.y += this.platformsVel // Moviment cap aball de les plataformes
-                
-                for (let x = 0; x < current.walls.length; ++x) {
-                    current.walls[x].y1 += this.platformsVel
-                    current.walls[x].y2 += this.platformsVel
+
+                if (this.frame > 100) {
+                    current.y += this.platformsVel // Moviment cap aball de les plataformes
+                    for (let x = 0; x < current.walls.length; ++x) {
+                        current.walls[x].y1 += this.platformsVel
+                        current.walls[x].y2 += this.platformsVel
+                    }
                 }
                 
                 if (current.y >= 0 && current.y <= d.height + current.h) 
@@ -146,7 +151,9 @@ class Game {
         //console.log("hola")
         for (let i = 0; i < this.platforms.length; ++i) {
             let p = this.platforms[i]
-            if (this.me.isCollision(p)) return;
+            for (let x = 0; x < p.length; ++x) {
+                if (this.me.isCollision(p[x])) return;
+            }
         }
 
 
@@ -177,7 +184,7 @@ function checkKeys() {
 
 const d = new drawTool("mycanvas")
 
-let g = new Game(2222, [1])
+let g = new Game(1000, [1])
 g.start()
 var updateAll = () => g.update()
 
