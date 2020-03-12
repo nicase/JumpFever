@@ -20,6 +20,12 @@ class Game {
     update() {
         checkKeys()
         d.clearAll()
+        let k = new Platform(d.width/2, d.height/2, 100)
+        let j = new Platform(50,d.height - 10,100);
+        this.platforms.push(k)
+        this.platforms.push(j)
+        k.show();
+        j.show();
         this.checkCollisions()
         this.me.update()
         for (let i = 0; i < this.players.length; ++i) {
@@ -39,19 +45,19 @@ class Game {
         for (let i = 0; i < 50; ++i) 
             this.randomVec.push(random(i)*random(this.seed))
         
-        console.log(this.randomVec)
+        //console.log(this.randomVec)
 
     }
 
     checkCollisions() {
         // Comprovar collisions de me
         //this.me.isGrounded = true | false
-
+        //console.log("hola")
         for (let i = 0; i < this.platforms.length; ++i) {
             let p = this.platforms[i]
-            if (this.me.isCollision(p)) return true;
+            if (this.me.isCollision(p)) return;
         }
-        return false;
+
 
     }
 
@@ -76,7 +82,7 @@ function checkKeys() {
     }
     // Right
     if (keys[39]) {
-        console.log("Right")
+        //console.log("Right")
         g.me.moveRight()
     }
 }
