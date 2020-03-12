@@ -6,7 +6,7 @@ class Wall {
         this.y2 = y2;
     }
 
-    contained(dot) {
+    contained(dot) { // {x:1, y:2}
         if (this.x1 == this.x2 && dot.x != this.x1)
             return false;
         if (this.y1 == this.y2 && dot.y != this.y1) 

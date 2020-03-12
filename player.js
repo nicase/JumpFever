@@ -44,7 +44,6 @@ class Player{
         const dt = new drawTool("mycanvas");
         //console.log("show")
         //console.log(this.posX)
-        //console.log("show " + this.posX + " " + this.posY) 
         dt.rectangle(this.posX, this.posY, this.w, this.h/2, {color: "#FCD0B4"});
         dt.rectangle(this.posX,this.posY + this.h/2, this.w, this.h/2, {color: "#FF0202"})
 
