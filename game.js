@@ -73,7 +73,7 @@ onkeydown = onkeyup = function(e){
 function checkKeys() {
     // Up
     if (keys[38]) {
-        console.log('hafdb')
+        //console.log('hafdb')
         g.me.jump()
     }
     // Left
@@ -93,4 +93,4 @@ let g = new Game(4545, [1])
 g.start()
 var updateAll = () => g.update()
 
-d.setInterval(updateAll, 10)
+d.setInterval(updateAll, 30)

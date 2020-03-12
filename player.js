@@ -9,11 +9,18 @@ class Player{
 
         this.posX = 0.0 + this.w/2;
         let canv = new drawTool("mycanvas")
-        this.posY = 0.0 - 3*this.h/4 + canv.height - 20;
+        this.offset =  - 3*this.h/4 + canv.height - 20;
+        this.posY = 0.0 + this.offset;
+        this.offset2 = 3*this.h/4;
         this.accX = 0.0;
         this.accY = 0.0;
         this.velX = 0.0;
         this.velY = 0.0;
+
+        this.lastCollision;
+        this.afterJump = false;
+        this.justJumped = false;
+        this.jumpcontrol = 0;
 
         this.collisionTOP = false;
         this.collisionRIGHT = false;
@@ -26,10 +33,11 @@ class Player{
         this.rx = this.posX + this.w/2 //right x
 
 
-        this.gravity = 0.05;
-        // [0] TOP LEFT - RIGHT [1] TOP RIGHT - BOT [2] BOT RIGHT - LEFT [3] BOT RIGHT - TOP
-        this.walls = [new Wall(this.lx, this.ty, this.rx, this.ty), new Wall(this.rx, this.ty + 5, this.rx, this.by - 5),
-            new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.by - 5, this.lx, this.ty + 5)]
+        this.gravity = 0.005;
+        // [0] EXTRA [1] BOT RIGHT - LEFT [2] TOP LEFT - RIGHT [3] TOP RIGHT - BOT  [4] BOT LEFT - TOP
+        this.walls = [ new Wall(this.posX, this.posY, this.posX, this.by + 5 ), new Wall(this.rx, this.by, this.lx, this.by), 
+            new Wall(this.lx, this.ty, this.rx, this.ty), new Wall(this.rx, this.ty + 5, this.rx, this.by - 5) 
+            ,new Wall(this.lx, this.by - 5, this.lx, this.ty + 5)]
     }
     
     show() {
@@ -46,8 +54,10 @@ class Player{
 
     jump() {
         if (this.isGrounded) {
-            this.accY -= 0.8    ;
+            this.afterJump = true;
+            this.accY -= 0.1;
             this.isGrounded = false;
+            this.justJumped = true;
         }
     }
 
@@ -60,18 +70,25 @@ class Player{
         this.velX -= 0.6;
     }
 
-    // i == 0 -> CAP, i == 1 -> COSTAT DRET, i == 2 -> PEUS, i == 3 -> COSTAT ESQUERRA
+    // i == 0 -> PEUS, i == 1 -> CAP, i == 2 -> COSTAT DRET, i == 3 -> COSTAT ESQUERRA
 
     isCollision(platform) {
 
         for (let i = 0; i < this.walls.length; ++i) {
-            if (platform.isCollision(this.walls[i])) {
+            let topy = platform.isCollision(this.walls[i]);
+            if (topy != undefined) {
                 console.log(i);
-                this.collisionLEFT = this.collisionRIGHT = this.collisionTOP = this.isGrounded = false;
-                if (i == 0) this.collisionTOP = true;
-                else if (i == 1) this.collisionRIGHT = true;
-                else if (i == 2) this.isGrounded = true;
-                else if (i == 3) this.collisionLEFT = true;
+                this.collisionLEFT = this.collisionRIGHT  = this.collisionTOP = this.isGrounded = false;
+                if (i == 0) {
+                    this.isGrounded = true;
+                    this.lastCollision = topy;
+                    //this.afterJump = true;
+                    //console.log(this.lastCollision)
+                } 
+                else if (i == 1) this.isGrounded = true;
+                else if (i == 2) this.collisionTOP = true;
+                else if (i == 3) this.collisionRIGHT = true;
+                else if (i == 4) this.collisionLEFT = true;
                 return true;
             }
         }
@@ -85,10 +102,10 @@ class Player{
         this.by = this.posY + 3*this.h/4 //bot y
         this.rx = this.posX + this.w/2 //right x
 
-        // [0] TOP LEFT - RIGHT [1] TOP RIGHT - BOT [2] BOT RIGHT - LEFT [3] BOT RIGHT - TOP
+        // [0] EXTRA [1] TOP LEFT - RIGHT [2] TOP RIGHT - BOT [3] BOT RIGHT - LEFT [4] BOT RIGHT - TOP
 
-        this.walls = [new Wall(this.lx, this.ty, this.rx, this.ty), new Wall(this.rx, this.ty + 5, this.rx, this.by - 5),
-            new Wall(this.rx, this.by , this.lx, this.by), new Wall(this.lx, this.by - 5, this.lx, this.ty + 5)]
+        this.walls = [new Wall(this.posX, this.posY, this.posX, this.by + 15), new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.ty, this.rx, this.ty), 
+            new Wall(this.rx, this.ty + 5, this.rx, this.by - 5) , new Wall(this.lx, this.by - 5, this.lx, this.ty + 5)]
     }
 
     update() {
@@ -107,13 +124,26 @@ class Player{
         for (let h = 0; h < this.walls.length; ++h) {
             this.walls[h].show();
         }
-        //if (!this.isGrounded) this.accY += this.gravity;
-        /*if (this.posY >= 0) {
-            this.velY = 0
-            this.posY = 0
-            this.accY = 0
-            this.isGrounded = true;
-        }*/
+        if (!this.isGrounded) this.accY += this.gravity;
+        if (this.justJumped) {
+            this.jumpcontrol++;
+        }
+        else {
+            if (this.isGrounded) {
+                if (this.afterJump) {
+                    this.posY = this.lastCollision - this.offset2;
+                    this.afterJump = false;
+                }
+                this.velY = 0;
+                this.accY = 0;
+            }
+        }
+        if (this.jumpcontrol == 3) {
+            this.justJumped = false
+            this.jumpcontrol = 0;
+        }
+        
+
         this.updateWalls()
 
         this.show();

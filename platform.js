@@ -1,8 +1,8 @@
 class Wall {
     constructor (x1, y1, x2, y2) {
         this.x1 = x1;
-        this.x2 = x2;
         this.y1 = y1;
+        this.x2 = x2;
         this.y2 = y2;
     }
 
@@ -79,9 +79,16 @@ class Platform {
 
     isCollision(w) {
         for (let i = 0; i < this.walls.length; ++i) {
-            if (this.walls[i].intersection(w) != undefined) return true;
+            //w es els walls del player
+            if (this.walls[i].intersection(w) != undefined) {
+                return this.walls[i].y1
+                /*console.log("platform")
+                console.log(this.walls[i])
+                console.log("player")
+                console.log(w);*/
+            }
         }
-        return false;
+        return undefined;
     }
 
     show() {
