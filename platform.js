@@ -6,7 +6,7 @@ class Wall {
         this.y2 = y2;
     }
 
-    contained(dot) {
+    contained(dot) { // {x:1, y:2}
         if (this.x1 == this.x2 && dot.x != this.x1)
             return false;
         if (this.y1 == this.y2 && dot.y != this.y1) 
@@ -59,8 +59,8 @@ class Wall {
 
 class Platform {
     constructor (x, y, w) {
-        this.x = 0
-        this.y = 0
+        this.x = x
+        this.y = y
         this.w = w
         this.h = 20
         let x1 = this.x + this.w/2
