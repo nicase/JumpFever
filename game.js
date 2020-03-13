@@ -5,11 +5,12 @@ class Game {
         this.others = others
         this.players = []
         this.platforms = []
-        this.platformsVel = 0.5
+        this.platformsVel = 0.2
         let oneWidth = 150
         let twoWidth = 100
         let threeWidth = 100
         this.frame = 0
+        this.move = false
 
         this.oneBlock = [ 
             // One block
@@ -68,6 +69,7 @@ class Game {
 
     start() {
         this.frame = 0
+        this.move = false
         this.generatePlatforms()
         for (let i = 0; i < this.others.length; ++i) {
             this.players.push(new Player(this.others[i]))
@@ -76,11 +78,13 @@ class Game {
 
     update() {
         this.frame += 1
+        if (this.frame > 1000) this.move = true;
         checkKeys()
         d.clearAll()
         this.drawPlatforms()
         this.checkCollisions()
         this.me.update()
+        if (this.move) this.me.worldMove(this.platformsVel)
         for (let i = 0; i < this.players.length; ++i) {
             let p = this.players[i]
             p.update_other()
@@ -130,7 +134,7 @@ class Game {
             for (let j = 0; j < level.length; ++j) {
                 let current = level[j]
 
-                if (this.frame > 10000) {
+                if (this.move) {
                     
                     current.update(this.platformsVel)
                 }
@@ -178,8 +182,8 @@ function checkKeys() {
 
 const d = new drawTool("mycanvas")
 
-let g = new Game(1002, [1])
+let g = new Game(3402, [1])
 g.start()
 var updateAll = () => g.update()
 
-d.setInterval(updateAll, 10)
+d.setInterval(updateAll, 1)

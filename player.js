@@ -34,9 +34,9 @@ class Player{
         this.rx = this.posX + this.w/2 //right x
 
         // Movement parameters
-        this.speedX = 2.5;
-        this.speedY = 4; 
-        this.gravity = 0.07;
+        this.speedX = 1.5;
+        this.speedY = 3; 
+        this.gravity = 0.03;
         
         // [0] baix [1] cap [2] dreta [3] esquerra
         this.walls = [new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.ty, this.rx, this.ty), 
@@ -115,6 +115,13 @@ class Player{
             new Wall(this.rx, this.ty + ofs, this.rx, this.by - ofs), 
             new Wall(this.lx, this.by - ofs, this.lx, this.ty + ofs)
         ]
+    }
+
+    worldMove(vel) {
+        if (this.isGrounded) {
+            this.posY += vel;
+            console.log("world")
+        };
     }
 
     update() {
@@ -199,9 +206,10 @@ class Player{
         
         this.updateWalls()
 
-        for (let h = 0; h < this.walls.length; ++h) {
-            this.walls[h].show();
-        }
+        // Draw walls
+        // for (let h = 0; h < this.walls.length; ++h) {
+        //     this.walls[h].show();
+        // }
 
         if (!this.isGrounded) this.velY += this.gravity;
 
