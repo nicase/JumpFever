@@ -116,7 +116,7 @@ class Game {
             
             let blocks = []
             for (let x = 0; x < level.length; ++x) {
-                blocks.push(new Platform(level[x][0], d.height - gap*(i + 2), level[x][1]))
+                blocks.push(new Platform(level[x][0], d.height - gap*(i + 1), level[x][1]))
             }
 
             this.platforms.push(blocks)
@@ -131,7 +131,7 @@ class Game {
             for (let j = 0; j < level.length; ++j) {
                 let current = level[j]
 
-                if (this.frame > 100) {
+                if (this.frame > 10000) {
                     current.y += this.platformsVel // Moviment cap aball de les plataformes
                     for (let x = 0; x < current.walls.length; ++x) {
                         current.walls[x].y1 += this.platformsVel
@@ -188,4 +188,4 @@ let g = new Game(1000, [1])
 g.start()
 var updateAll = () => g.update()
 
-d.setInterval(updateAll, 30)
+d.setInterval(updateAll, 10)

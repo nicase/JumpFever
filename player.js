@@ -44,11 +44,11 @@ class Player{
         const dt = new drawTool("mycanvas");
         //console.log("show")
         //console.log(this.posX)
-        dt.rectangle(this.posX, this.posY, this.w, this.h/2, {color: "#FCD0B4"});
-        dt.rectangle(this.posX,this.posY + this.h/2, this.w, this.h/2, {color: "#FF0202"})
+        // dt.rectangle(this.posX, this.posY, this.w, this.h/2, {color: "#FCD0B4"});
+        // dt.rectangle(this.posX,this.posY + this.h/2, this.w, this.h/2, {color: "#FF0202"})
 
-        dt.rectangle(this.posX - 5, this.posY - 1, 4, 4);
-        dt.rectangle(this.posX + 5, this.posY - 1, 4, 4);
+        // dt.rectangle(this.posX - 5, this.posY - 1, 4, 4);
+        // dt.rectangle(this.posX + 5, this.posY - 1, 4, 4);
     }
 
     jump() {
@@ -72,16 +72,16 @@ class Player{
     // i == 0 -> PEUS, i == 1 -> CAP, i == 2 -> COSTAT DRET, i == 3 -> COSTAT ESQUERRA
 
     isCollision(platform) {
-
+        let value = false; 
         for (let i = 0; i < this.walls.length; ++i) {
+            this.collisionLEFT = this.collisionRIGHT  = this.collisionTOP = this.isGrounded = false;
             let topy = platform.isCollision(this.walls[i]);
             if (topy != undefined) {
                 console.log(i);
-                this.collisionLEFT = this.collisionRIGHT  = this.collisionTOP = this.isGrounded = false;
                 if (i == 0) {
                     this.isGrounded = true;
                     this.lastCollision = topy;
-                    //this.afterJump = true;
+                    this.afterJump = true;
                     //console.log(this.lastCollision)
                 } 
                 else if (i == 1) this.isGrounded = true;
@@ -91,7 +91,7 @@ class Player{
                 return true;
             }
         }
-        return false;
+        return value;
     }
 
     updateWalls() {
@@ -103,22 +103,39 @@ class Player{
 
         // [0] EXTRA [1] TOP LEFT - RIGHT [2] TOP RIGHT - BOT [3] BOT RIGHT - LEFT [4] BOT RIGHT - TOP
 
-        this.walls = [new Wall(this.posX, this.posY, this.posX, this.by + 15), new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.ty, this.rx, this.ty), 
+        this.walls = [new Wall(this.posX, this.posY + this.h/2, this.posX, this.by + 5), new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.ty, this.rx, this.ty), 
             new Wall(this.rx, this.ty + 5, this.rx, this.by - 5) , new Wall(this.lx, this.by - 5, this.lx, this.ty + 5)]
     }
 
     update() {
-        // if (!this.isCollision()) this.accY -= 1.0;
-
-        //console.log(this.isGrounded);
         if (this.velX > 0) this.velX -= 0.2;
         if (this.velX < 0) this.velX += 0.2;
         if (Math.abs(this.velX) <= 0.2) this.velX = 0;
         
+
+        if (this.collisionTOP) {
+            this.collisionTOP = false;
+            this.accY = 0;
+            this.velY = 0;
+        }
+        if (this.collisionLEFT) {
+            this.collisionLEFT = false;
+            this.accX = 0;
+            this.velX = 0;
+        }
+
+        if (this.collisionRight) {
+            this.collisionLEFT = false;
+            this.accX = 0;
+            this.velX = 0;
+        }
+
         this.velX += this.accX;
         this.posX += this.velX;
         this.velY += this.accY;
         this.posY += this.velY;
+        
+        this.updateWalls()
 
         for (let h = 0; h < this.walls.length; ++h) {
             this.walls[h].show();
@@ -143,7 +160,6 @@ class Player{
         }
         
 
-        this.updateWalls()
 
         this.show();
     }
