@@ -5,7 +5,7 @@ class Game {
         this.others = others
         this.players = []
         this.platforms = []
-        this.platformsVel = 1
+        this.platformsVel = 0.5
         let oneWidth = 150
         let twoWidth = 100
         let threeWidth = 100
@@ -121,7 +121,6 @@ class Game {
 
             this.platforms.push(blocks)
         }
-        console.log(this.platforms) 
     }
 
 
@@ -131,12 +130,9 @@ class Game {
             for (let j = 0; j < level.length; ++j) {
                 let current = level[j]
 
-                if (this.frame > 1000) {
-                    current.y += this.platformsVel // Moviment cap aball de les plataformes
-                    for (let x = 0; x < current.walls.length; ++x) {
-                        current.walls[x].y1 += this.platformsVel
-                        current.walls[x].y2 += this.platformsVel
-                    }
+                if (this.frame > 10000) {
+                    
+                    current.update(this.platformsVel)
                 }
                 
                 if (current.y >= 0 && current.y <= d.height + current.h) 
@@ -148,7 +144,7 @@ class Game {
     checkCollisions() {
         // Comprovar collisions de me
         for (let i = 0; i < this.platforms.length; ++i) {
-            let p = this.platforms[i]
+            let p = this.platforms[i];
             for (let x = 0; x < p.length; ++x) {
                 if (this.me.isCollision(p[x])) return;
             }
@@ -182,7 +178,7 @@ function checkKeys() {
 
 const d = new drawTool("mycanvas")
 
-let g = new Game(1000, [1])
+let g = new Game(1002, [1])
 g.start()
 var updateAll = () => g.update()
 

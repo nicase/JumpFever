@@ -68,7 +68,7 @@ class Platform {
         this.y = y
         this.w = w
         this.h = 20
-        this.x1 = this.x + this.w/2
+        this.x1 = this.x + this.w/2 
         this.x2 = this.x - this.w/2
         this.y1 = this.y + this.h/2
         this.y2 = this.y - this.h/2
@@ -104,5 +104,17 @@ class Platform {
     show() {
         let d = new drawTool("mycanvas")
         d.rectangle(this.x, this.y, this.w, this.h, {color: "black"})
+    }
+
+    update(vel) {
+        this.y += vel // Moviment cap aball de les plataformes
+
+        this.x1 = this.x + this.w/2
+        this.x2 = this.x - this.w/2
+        this.y1 = this.y + this.h/2
+        this.y2 = this.y - this.h/2
+
+        this.walls = [new Wall(this.x1, this.y1, this.x2, this.y1), new Wall(this.x2, this.y1, this.x2, this.y2),
+            new Wall(this.x2, this.y2, this.x1, this.y2), new Wall(this.x1, this.y2, this.x1, this.y1)]
     }
 }
