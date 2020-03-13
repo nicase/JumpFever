@@ -131,7 +131,7 @@ class Game {
             for (let j = 0; j < level.length; ++j) {
                 let current = level[j]
 
-                if (this.frame > 10000) {
+                if (this.frame > 1000) {
                     current.y += this.platformsVel // Moviment cap aball de les plataformes
                     for (let x = 0; x < current.walls.length; ++x) {
                         current.walls[x].y1 += this.platformsVel
@@ -147,8 +147,6 @@ class Game {
 
     checkCollisions() {
         // Comprovar collisions de me
-        //this.me.isGrounded = true | false
-        //console.log("hola")
         for (let i = 0; i < this.platforms.length; ++i) {
             let p = this.platforms[i]
             for (let x = 0; x < p.length; ++x) {
@@ -188,4 +186,4 @@ let g = new Game(1000, [1])
 g.start()
 var updateAll = () => g.update()
 
-d.setInterval(updateAll, 5)
+d.setInterval(updateAll, 10)
