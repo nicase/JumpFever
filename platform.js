@@ -68,13 +68,13 @@ class Platform {
         this.y = y
         this.w = w
         this.h = 20
-        let x1 = this.x + this.w/2
-        let x2 = this.x - this.w/2
-        let y1 = this.y + this.h/2
-        let y2 = this.y - this.h/2
+        this.x1 = this.x + this.w/2
+        this.x2 = this.x - this.w/2
+        this.y1 = this.y + this.h/2
+        this.y2 = this.y - this.h/2
 
-        this.walls = [new Wall(x1, y1, x2, y1), new Wall(x2, y1, x2, y2),
-                      new Wall(x2, y2, x1, y2), new Wall(x1, y2, x1, y1)]
+        this.walls = [new Wall(this.x1, this.y1, this.x2, this.y1), new Wall(this.x2, this.y1, this.x2, this.y2),
+                      new Wall(this.x2, this.y2, this.x1, this.y2), new Wall(this.x1, this.y2, this.x1, this.y1)]
     }
 
     isCollision(w) {
@@ -89,6 +89,16 @@ class Platform {
             }
         }
         return undefined;
+    }
+
+    dotIsInside(x, y) {
+        if (x <= this.x1 && x >= this.x2 && y <= this.y1 && y >= this.y2) return true
+        return false;
+    }
+
+    isInside(w) {
+        if (this.dotIsInside(w.x1, w.y1) || this.dotIsInside(w.x2, w.y2)) return true
+        return false
     }
 
     show() {

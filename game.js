@@ -188,4 +188,4 @@ let g = new Game(1000, [1])
 g.start()
 var updateAll = () => g.update()
 
-d.setInterval(updateAll, 10)
+d.setInterval(updateAll, 5)
