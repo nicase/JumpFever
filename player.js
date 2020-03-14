@@ -6,6 +6,8 @@ class Player{
         
         this.w = 25;
         this.h = 25;
+        this.anim = 0
+        this.animY = 0
 
         this.posX = 0.0 + this.w/2;
         let canv = new drawTool("mycanvas")
@@ -49,8 +51,10 @@ class Player{
         //console.log(this.posX)
         dt.rectangle(this.posX, this.posY, this.w, this.h, {color: "#FCD0B4"});
 
-        dt.rectangle(this.posX - 5, this.posY - 1, 4, 4);
-        dt.rectangle(this.posX + 5, this.posY - 1, 4, 4);
+        dt.rectangle(this.posX - 5 + this.anim, this.posY - 1 + this.animY, 4, 4);
+        dt.rectangle(this.posX + 5 + this.anim, this.posY - 1 + this.animY, 4, 4);
+        this.anim = 0;
+        this.animY = 0;
     }
 
     jump() {
@@ -64,15 +68,17 @@ class Player{
             this.isGrounded = false;
             this.justJumped = true;
         }
+        this.animY = -4;
     }
 
     moveRight() {
         this.velX = this.speedX;
-        
+        this.anim = 4;
     }
 
     moveLeft() {
         this.velX = -this.speedX;
+        this.anim = -4
     }
 
         // [0] baix [1] cap [2] dreta [3] esquerra
@@ -199,9 +205,9 @@ class Player{
         
         this.updateWalls()
 
-        for (let h = 0; h < this.walls.length; ++h) {
-            this.walls[h].show();
-        }
+        // for (let h = 0; h < this.walls.length; ++h) {
+        //     this.walls[h].show();
+        // }
 
         if (!this.isGrounded) this.velY += this.gravity;
 
