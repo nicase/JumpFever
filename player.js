@@ -36,9 +36,9 @@ class Player{
         this.rx = this.posX + this.w/2 //right x
 
         // Movement parameters
-        this.speedX = 2.5;
-        this.speedY = 4; 
-        this.gravity = 0.07;
+        this.speedX = 1.5;
+        this.speedY = 3; 
+        this.gravity = 0.03;
         
         // [0] baix [1] cap [2] dreta [3] esquerra
         this.walls = [new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.ty, this.rx, this.ty), 
@@ -123,6 +123,10 @@ class Player{
         ]
     }
 
+    worldMove(vel) {
+        this.posY += vel;
+    }
+
     update() {
         if (this.velX > 0) this.velX -= 0.1;
         if (this.velX < 0) this.velX += 0.1;
@@ -162,7 +166,7 @@ class Player{
                 this.velX = 0;
             }
             else {
-                this.posY = this.platformCollision.y1 + this.h/2 + 1;
+                this.posY = this.platformCollision.y1 + this.h/2 + 3;
                 // this.velY = 0;
             }
         }
@@ -175,7 +179,7 @@ class Player{
                 this.velX = 0;
             }
             else {
-                this.posY = this.platformCollision.y1 + this.h/2 + 1;
+                this.posY = this.platformCollision.y1 + this.h/2 + 3;
                 // this.velY = 0;
             }
         }
@@ -205,6 +209,10 @@ class Player{
         
         this.updateWalls()
 
+<<<<<<< HEAD
+=======
+        // Draw walls
+>>>>>>> 4c9b43ee13db19a16270b02d8f81f479432220f7
         // for (let h = 0; h < this.walls.length; ++h) {
         //     this.walls[h].show();
         // }

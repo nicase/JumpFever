@@ -1,0 +1,3 @@
+- Arreglar top left i top right pk també miri la X
+- Arreglar rebot mentre baixen plataformes i isGrounded
+- Animacions
