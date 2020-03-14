@@ -138,7 +138,7 @@ class Player{
             // Enough to be up
             if (this.posY + 2*this.h/5 <= this.platformCollision.y2) {
                 this.posY = this.platformCollision.y2 - this.h/2 - 1;
-                this.velY = 0;
+                // this.velY = 0;
             }
             else {
                 this.posX = this.platformCollision.x2 - this.w/2;
@@ -151,7 +151,7 @@ class Player{
             // Enough to be up
             if (this.posY + 2*this.h/5 <= this.platformCollision.y2) {
                 this.posY = this.platformCollision.y2 - this.h/2 - 1;
-                this.velY = 0;
+                // this.velY = 0;
             }
             else {
                 this.posX = this.platformCollision.x1 + this.w/2;
@@ -164,7 +164,7 @@ class Player{
             // Enough to be up
             if (this.posY - 2*this.h/5 <= this.platformCollision.y1) {
                 this.posX = this.platformCollision.x2 - this.w/2;
-                this.velX = 0;
+                // this.velX = 0;
             }
             else {
                 this.posY = this.platformCollision.y1 + this.h/2 + 3;
@@ -177,7 +177,7 @@ class Player{
             // Enough to be up
             if (this.posY - 2*this.h/5 <= this.platformCollision.y1) {
                 this.posX = this.platformCollision.x1 + this.w/2;
-                this.velX = 0;
+                // this.velX = 0;
             }
             else {
                 this.posY = this.platformCollision.y1 + this.h/2 + 3;

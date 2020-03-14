@@ -71,6 +71,7 @@ class Game {
         this.frame = 0
         this.move = false
         this.generatePlatforms()
+        this.me = new Player(d.width/2, d.height - 20)
         for (let i = 0; i < this.others.length; ++i) {
             this.players.push(new Player(d.width/2, d.height - 20, this.others[i]))
         }
@@ -81,7 +82,7 @@ class Game {
         if (this.frame > 1000) this.move = true;
         checkKeys()
         d.clearAll()
-        d.backbroung("red")
+        d.backbroung("white")
         let minY = d.height;
         for (let i = 0; i < this.players.length; ++i) {
             minY = Math.min(minY, this.players[i].posY);
@@ -105,6 +106,13 @@ class Game {
             let p = this.players[i]
             p.update_other()
         }
+
+        // Check if player is dead
+        if (this.me.posY >= d.height + 100) {
+            this.me.kill();
+            this.start();
+        }
+
     }
 
     blockEquals(b1, b2) {
