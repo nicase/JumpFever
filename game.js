@@ -1,6 +1,6 @@
 class Game {
     constructor(seed, others) {
-        this.me = new Player()
+        this.me = new Player(d.width/2, d.height - 20)
         this.seed = seed
         this.others = others
         this.players = []
@@ -72,7 +72,7 @@ class Game {
         this.move = false
         this.generatePlatforms()
         for (let i = 0; i < this.others.length; ++i) {
-            this.players.push(new Player(this.others[i]))
+            this.players.push(new Player(d.width/2, d.height - 20, this.others[i]))
         }
     }
 
@@ -81,19 +81,26 @@ class Game {
         if (this.frame > 1000) this.move = true;
         checkKeys()
         d.clearAll()
-        this.drawPlatforms()
-        this.checkCollisions()
-        this.me.update()
-        
-        if (this.me.posY < 50) this.platformsVel = 0.8
-        else if (this.me.posY < 100) this.platformsVel = 0.7
-        else if (this.me.posY < 150) this.platformsVel = 0.6
-        else if (this.me.posY < 200) this.platformsVel = 0.5
-        else if (this.me.posY < 250) this.platformsVel = 0.4
-        else if (this.me.posY < 300) this.platformsVel = 0.3
+        d.backbroung("red")
+        let minY = d.height;
+        for (let i = 0; i < this.players.length; ++i) {
+            minY = Math.min(minY, this.players[i].posY);
+        }
+        minY = Math.min(minY, this.me.posY);
+
+        if (minY < 50) this.platformsVel = 0.8
+        else if (minY < 100) this.platformsVel = 0.7
+        else if (minY < 150) this.platformsVel = 0.6
+        else if (minY < 200) this.platformsVel = 0.5
+        else if (minY < 250) this.platformsVel = 0.4
+        else if (minY < 300) this.platformsVel = 0.3
         else this.platformsVel = 0.2
 
+        this.drawPlatforms()
         if (this.move) this.me.worldMove(this.platformsVel)
+        this.checkCollisions()
+        this.me.update()
+
         for (let i = 0; i < this.players.length; ++i) {
             let p = this.players[i]
             p.update_other()
@@ -117,12 +124,7 @@ class Game {
         let gap = 100
         this.platforms = [[new Platform(d.width/2, d.height, d.width)]]
 
-        var neg = (r) => {
-            if (r > 0.5) return 1
-            else -1
-        } 
-
-        for (let i = 0; i < 50; ++i) {
+        for (let i = 0; i < 100; ++i) {
             let randomVal = random(i * this.seed + 1)
 
             let nPlatforms = Math.floor(randomVal*3)
@@ -135,34 +137,15 @@ class Game {
             let index = Math.floor(type.length * random(i*2*this.seed))
             let level = type[index]
             
+            let decrease = 1 - 0.1*Math.floor(i/10)
             let blocks = []
             for (let x = 0; x < level.length; ++x) {
-                blocks.push(new Platform(level[x][0], d.height - gap*(i + 1), level[x][1]))
+                blocks.push(new Platform(level[x][0], d.height - gap*(i + 1), level[x][1]*decrease))
             }
 
-            // If the block is the same as the one before, search again
-            if (this.blockEquals(blocks, this.platforms[this.platforms.length - 1])) {
-                console.log("same")
-                randomVal = random(i * this.seed + 2)
-                nPlatforms = Math.floor(randomVal*3)
-                type = []
-                if (nPlatforms == 0) type = this.oneBlock
-                else if (nPlatforms == 1) type = this.twoBlock
-                else if (nPlatforms == 2) type = this.threeBlock
-                
-                index = Math.floor(type.length * random(i*2*this.seed + 2))
-                level = type[index]
-                
-                blocks = []
-                for (let x = 0; x < level.length; ++x) {
-                    blocks.push(new Platform(level[x][0], d.height - gap*(i + 1), level[x][1]))
-                }
-            }
-            
             this.platforms.push(blocks)
         }
     }
-
 
     drawPlatforms() {
         for (let i = 0; i < this.platforms.length; ++i) {
@@ -171,7 +154,6 @@ class Game {
                 let current = level[j]
 
                 if (this.move) {
-                    
                     current.update(this.platformsVel)
                 }
                 
@@ -189,8 +171,6 @@ class Game {
                 if (this.me.isCollision(p[x])) return;
             }
         }
-
-
     }
 }
 
@@ -216,10 +196,12 @@ function checkKeys() {
     }
 }
 
-const d = new drawTool("mycanvas")
+const cnv = document.getElementById("mycanvas")
+cnv.height = document.documentElement.clientHeight - 50;
 
-let g = new Game(342, [1])
+const d = new drawTool("mycanvas")
+let g = new Game(342, [1,2,3,4])
 g.start()
 var updateAll = () => g.update()
 
-d.setInterval(updateAll, 1)
+d.setInterval(updateAll, 2)

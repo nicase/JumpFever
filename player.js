@@ -1,6 +1,6 @@
 class Player{
 
-    constructor(id) {
+    constructor(x, y, id) {
 
         if (id) this.id = id;
         
@@ -9,10 +9,11 @@ class Player{
         this.anim = 0
         this.animY = 0
 
-        this.posX = 0.0 + this.w/2;
+        this.posX = x;
+        this.posY = y;
+        
         let canv = new drawTool("mycanvas")
         this.offset =  - this.h/2 + canv.height - 20;
-        this.posY = 0.0 + this.offset;
         this.offset2 = this.h/2;
         this.velX = 0.0;
         this.velY = 0.0;
@@ -131,7 +132,7 @@ class Player{
         if (this.velX > 0) this.velX -= 0.1;
         if (this.velX < 0) this.velX += 0.1;
         if (Math.abs(this.velX) <= 0.1) this.velX = 0;
-        
+
         // Botom right
         if (this.isGrounded && this.collisionRIGHT && !this.collisionLEFT) {
             // Enough to be up
@@ -209,10 +210,7 @@ class Player{
         
         this.updateWalls()
 
-<<<<<<< HEAD
-=======
         // Draw walls
->>>>>>> 4c9b43ee13db19a16270b02d8f81f479432220f7
         // for (let h = 0; h < this.walls.length; ++h) {
         //     this.walls[h].show();
         // }
@@ -231,5 +229,8 @@ class Player{
         //demano pos a pau i faig show
     }
 
+    kill() {
+        // Report that I'm dead
+    }
 
 }
