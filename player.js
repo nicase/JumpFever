@@ -18,14 +18,10 @@ class Player{
         this.velX = 0.0;
         this.velY = 0.0;
 
+        //ultima platform amb la q hem xocat
         this.platformCollision;
-        this.afterJump = false;
-        this.justJumped = false;
-        this.jumpcontrol = 0;
 
-        this.topCollisionControl = 0;
-        this.justHitTop = false;
-
+        //collisions
         this.collisionTOP = false;
         this.collisionRIGHT = false;
         this.collisionLEFT = false;
@@ -44,13 +40,63 @@ class Player{
         // [0] baix [1] cap [2] dreta [3] esquerra
         this.walls = [new Wall(this.rx, this.by, this.lx, this.by), new Wall(this.lx, this.ty, this.rx, this.ty), 
                      new Wall(this.rx, this.ty, this.rx, this.by), new Wall(this.lx, this.by, this.lx, this.ty)]
+        
+        //animations
+        this.jumpAnimation = -1;
+        this.jumpAnimationStep = 3;
+        this.jumpDeform = 10
+
+        this.topAnimation = -1;
+        this.topAnimationStep = 3;
+        this.topDeform = 10;
     }
     
     show() {
         const dt = new drawTool("mycanvas");
-        //console.log("show")
-        //console.log(this.posX)
-        dt.rectangle(this.posX, this.posY, this.w, this.h, {color: "#FCD0B4"});
+        
+        //Jump animation
+        if (this.jumpAnimation >= 0) {
+            //deform
+            if (this.jumpAnimation <= 1*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 1*(this.jumpDeform/5), this.h + 1*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 2*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 2*(this.jumpDeform/5), this.h + 2*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 3*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 3*(this.jumpDeform/5), this.h + 3*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 4*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 4*(this.jumpDeform/5), this.h + 4*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 5*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 5*(this.jumpDeform/5), this.h + 5*(this.jumpDeform/5), {color: "#FFFFFF"})
+
+            //reform
+            else if (this.jumpAnimation <= 6*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 4*(this.jumpDeform/5), this.h + 4*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 7*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 3*(this.jumpDeform/5), this.h + 3*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 8*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 2*(this.jumpDeform/5), this.h + 2*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else if (this.jumpAnimation <= 9*this.jumpAnimationStep) dt.rectangle(this.posX, this.posY, this.w - 1*(this.jumpDeform/5), this.h + 1*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else {
+                dt.rectangle(this.posX, this.posY, this.w, this.h, {color: "#FFFFFF"})
+                this.jumpAnimation = -2
+            }
+            this.jumpAnimation++;
+        }
+        
+        //Top Collision animation
+        else if (this.topAnimation >= 0) {
+            if (this.topAnimation <= 1*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 1*(this.topDeform/5), this.h - 1*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 2*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 2*(this.topDeform/5), this.h - 2*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 3*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 3*(this.topDeform/5), this.h - 3*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 4*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 4*(this.topDeform/5), this.h - 4*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 5*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 5*(this.topDeform/5), this.h - 5*(this.topDeform/5), {color: "#FFFFFF"})
+
+            //reform
+            else if (this.topAnimation <= 6*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 4*(this.topDeform/5), this.h - 4*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 7*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 3*(this.topDeform/5), this.h - 3*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 8*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 2*(this.topDeform/5), this.h - 2*(this.topDeform/5), {color: "#FFFFFF"})
+            else if (this.topAnimation <= 9*this.topAnimationStep) dt.rectangle(this.posX, this.posY, this.w + 1*(this.topDeform/5), this.h - 1*(this.jumpDeform/5), {color: "#FFFFFF"})
+            else {
+                dt.rectangle(this.posX, this.posY, this.w, this.h, {color: "#FFFFFF"})
+                this.topAnimation = -2
+            }
+            this.topAnimation++;
+        }
+        else {
+            dt.rectangle(this.posX, this.posY, this.w, this.h, {color: "#FFFFFF"});
+         }
 
         dt.rectangle(this.posX - 5 + this.anim, this.posY - 1 + this.animY, 4, 4);
         dt.rectangle(this.posX + 5 + this.anim, this.posY - 1 + this.animY, 4, 4);
@@ -64,10 +110,10 @@ class Player{
         (!this.collisionLEFT && !this.collisionRIGHT);
 
         if (this.isGrounded && bopLeftRight) {
-            this.afterJump = true;
             this.velY -= this.speedY;
             this.isGrounded = false;
-            this.justJumped = true;
+            this.jumpAnimation = 0;
+            this.topAnimation = -1;
         }
         this.animY = -4;
     }
@@ -92,13 +138,16 @@ class Player{
             if (platform.isInside(this.walls[i])) {
                 trobat = true;
                 this.platformCollision = platform;
-                console.log(i);
+                //console.log(i);
                 if (i == 0) {
                     this.isGrounded = true;
-                    //this.afterJump = true;
                     //console.log(this.lastCollision)
                 } 
-                else if (i == 1) this.collisionTOP = true;  
+                else if (i == 1) {
+                    this.collisionTOP = true;
+                    this.jumpAnimation = -1; //parem l'animació de salt
+                    this.topAnimation = 0; //comencem l'animacio de colisió
+                } 
                 else if (i == 2) this.collisionRIGHT = true;
                 else if (i == 3) this.collisionLEFT = true;
 
@@ -221,7 +270,6 @@ class Player{
             this.posY = this.platformCollision.y2 - this.h/2
             this.velY = 0
         }
-
         this.show();
     }
 

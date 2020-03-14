@@ -71,7 +71,7 @@ class Wall {
 }
 
 class Platform {
-    constructor (x, y, w) {
+    constructor (x, y, w, rectColor) {
         this.x = x
         this.y = y
         this.w = w
@@ -83,6 +83,9 @@ class Platform {
 
         this.walls = [new Wall(this.x1, this.y1, this.x2, this.y1), new Wall(this.x2, this.y1, this.x2, this.y2),
                       new Wall(this.x2, this.y2, this.x1, this.y2), new Wall(this.x1, this.y2, this.x1, this.y1)]
+        
+        //console.log(rectColor)
+        this.color = rectColor;
     }
 
     isCollision(w) {
@@ -111,7 +114,8 @@ class Platform {
 
     show() {
         let d = new drawTool("mycanvas")
-        d.rectangle(this.x, this.y, this.w, this.h, {color: "black"})
+        //console.log(this.color)
+        d.rectangle(this.x, this.y, this.w, this.h, {color: "#" + this.color})
     }
 
     update(vel) {
@@ -136,4 +140,5 @@ class Platform {
         if (this.y2 != p.y2) return false;
         return true;
     }
+
 }

@@ -81,7 +81,7 @@ class Game {
         if (this.frame > 1000) this.move = true;
         checkKeys()
         d.clearAll()
-        d.backbroung("red")
+        d.backbroung("#000000")
         let minY = d.height;
         for (let i = 0; i < this.players.length; ++i) {
             minY = Math.min(minY, this.players[i].posY);
@@ -122,7 +122,8 @@ class Game {
         }
         // Posem terra inicial
         let gap = 100
-        this.platforms = [[new Platform(d.width/2, d.height, d.width)]]
+        //console.log(dataColors[0].toString(16))
+        this.platforms = [[new Platform(d.width/2, d.height, d.width, dataColors[0].toString(16))]]
 
         for (let i = 0; i < 100; ++i) {
             let randomVal = random(i * this.seed + 1)
@@ -140,7 +141,8 @@ class Game {
             let decrease = 1 - 0.1*Math.floor(i/10)
             let blocks = []
             for (let x = 0; x < level.length; ++x) {
-                blocks.push(new Platform(level[x][0], d.height - gap*(i + 1), level[x][1]*decrease))
+                //console.log(this.perc2color(i))
+                blocks.push(new Platform(level[x][0], d.height - gap*(i + 1), level[x][1]*decrease, dataColors[i].toString(16)))
             }
 
             this.platforms.push(blocks)
@@ -156,11 +158,25 @@ class Game {
                 if (this.move) {
                     current.update(this.platformsVel)
                 }
-                
+
                 if (current.y >= 0 && current.y <= d.height + current.h) 
                     current.show()
             }
         }
+    }
+
+    perc2color(perc) {
+        var r, g, b = 0;
+        if(perc < 50) {
+            r = 255;
+            g = Math.round(5.1 * perc);
+        }
+        else {
+            g = 255;
+            r = Math.round(510 - 5.10 * perc);
+        }
+        var h = r * 0x10000 + g * 0x100 + b * 0x1;
+        return '#' + ('000000' + h.toString(16)).slice(-6);
     }
 
     checkCollisions() {
@@ -200,7 +216,7 @@ const cnv = document.getElementById("mycanvas")
 cnv.height = document.documentElement.clientHeight - 50;
 
 const d = new drawTool("mycanvas")
-let g = new Game(342, [1,2,3,4])
+let g = new Game(777, [1,2,3,4])
 g.start()
 var updateAll = () => g.update()
 
