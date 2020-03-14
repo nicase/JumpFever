@@ -118,10 +118,7 @@ class Player{
     }
 
     worldMove(vel) {
-        if (this.isGrounded) {
-            this.posY += vel;
-            console.log("world")
-        };
+        this.posY += vel;
     }
 
     update() {
@@ -163,7 +160,7 @@ class Player{
                 this.velX = 0;
             }
             else {
-                this.posY = this.platformCollision.y1 + this.h/2 + 1;
+                this.posY = this.platformCollision.y1 + this.h/2 + 3;
                 // this.velY = 0;
             }
         }
@@ -176,7 +173,7 @@ class Player{
                 this.velX = 0;
             }
             else {
-                this.posY = this.platformCollision.y1 + this.h/2 + 1;
+                this.posY = this.platformCollision.y1 + this.h/2 + 3;
                 // this.velY = 0;
             }
         }

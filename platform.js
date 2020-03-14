@@ -60,6 +60,14 @@ class Wall {
         const dt = new drawTool("mycanvas");
         dt.line(this.x1,this.y1,this.x2,this.y2, {width: 3})
     }
+
+    equal(w) {
+        if (w.x1 != this.x1) return false;
+        if (w.x2 != this.x2) return false;
+        if (w.y1 != this.y1) return false;
+        if (w.y2 != this.y2) return false;
+        return true;
+    }
 }
 
 class Platform {
@@ -116,5 +124,16 @@ class Platform {
 
         this.walls = [new Wall(this.x1, this.y1, this.x2, this.y1), new Wall(this.x2, this.y1, this.x2, this.y2),
             new Wall(this.x2, this.y2, this.x1, this.y2), new Wall(this.x1, this.y2, this.x1, this.y1)]
+    }
+
+    equal(p) {
+        if (this.x != p.x) return false;
+        if (this.y != p.y) return false;
+        if (this.w != p.w) return false;
+        if (this.x1 != p.x1) return false;
+        if (this.x2 != p.x2) return false;
+        if (this.y1 != p.y1) return false;
+        if (this.y2 != p.y2) return false;
+        return true;
     }
 }
