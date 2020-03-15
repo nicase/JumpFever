@@ -1,0 +1,3 @@
+Power ups:
+    - Super jump: es carrega quan estas grounded apretant fletxa abaix
+    - Destructor: Trenques les plataformes per les que passes
