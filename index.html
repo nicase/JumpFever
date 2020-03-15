@@ -1,21 +1,34 @@
 <head>
-    <link rel="stylesheet" href="/styles.css">
-
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Jump fever</title>
 </head>
 <body>
     <div id="wrap">
         <div id="left">
-            fwes
+            <h1 class = "titol">Jump Fever</h1>
+            <div class = "username">
+                Username: Pringao
+            </div>
         </div>
-        <canvas id = "mycanvas" width="500"  height="500"></canvas>
+        <canvas id = "mycanvas" width="500"  height="100%"></canvas>
         <script src="data.js"></script>
         <script src="draw.js"></script>
         <script src="platform.js"></script>
         <script src="player.js"></script>
         <script src="game.js"></script>
+       
         <div id="right">
             tbyt
         </div>
+        <script>
+            function updatePanelColor() {
+                let lvl = g.currentLevel
+                console.log(dataColors[lvl].toString(16))
+                document.getElementById("right").style.backgroundColor = "#" + dataColors[lvl].toString(16)
+                document.getElementById("left").style.backgroundColor = "#" + dataColors[lvl].toString(16)
+            }
+
+        </script>
 
     </div>
     

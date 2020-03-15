@@ -4,6 +4,10 @@
     font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5
 }
+@font-face {
+    font-family: retroFont;
+    src: url(Retro\ Gaming.ttf);
+}
 
 body,
 html,
@@ -32,16 +36,31 @@ html,
     flex-direction: column;
     width: calc((100vw - 56.25vh)/2);
     height: 100vh;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 
 #left {
-    background: pink
+    /* background: #cfcfcf */
 }
 
 #right {
-    background: cyan;
+    /* background: #cfcfcf; */
+    
+}
+
+.titol {
+    font-family: retroFont;
+    font-size: 40;
+    color: black;
+    margin-top: 10vh;
+    
+}
+
+.username {
+    margin-top: 30vh;
+    font-weight: bold;
+    color: black;
 }
 
 #mainCanvas {
