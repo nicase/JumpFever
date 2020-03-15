@@ -115,7 +115,8 @@ class Game {
             this.start();
         }
 
-        this.currentLevel = this.me.platformCollision.level;
+        if (this.frame > 1) this.currentLevel = this.me.platformCollision.level;
+        else this.currentLevel = 0
         updatePanelColor()
 
     }

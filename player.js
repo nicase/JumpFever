@@ -18,7 +18,7 @@ class Player{
         this.velX = 0.0;
         this.velY = 0.0;
 
-        //ultima platform amb la q hem xocat
+        // ultima platform amb la q hem xocat
         this.platformCollision;
 
         //collisions
@@ -185,26 +185,26 @@ class Player{
         // Botom right
         if (this.isGrounded && this.collisionRIGHT && !this.collisionLEFT) {
             // Enough to be up
-            if (this.posY + 2*this.h/5 <= this.platformCollision.y2) {
-                this.posY = this.platformCollision.y2 - this.h/2 - 1;
-                // this.velY = 0;
+            if (this.posX + this.w/4 <= this.platformCollision.x2) {
+                this.posX = this.platformCollision.x2 - this.w/2 - 1;
+                this.velX = 0;
             }
             else {
-                this.posX = this.platformCollision.x2 - this.w/2;
-                this.velX = 0;
+                this.posY = this.platformCollision.y2 - this.h/2 - 1;
+                if (this.velY > 0) this.velY = 0;
             }
         }
 
         // Botom left
         else if (this.isGrounded && this.collisionLEFT && !this.collisionRIGHT) {
             // Enough to be up
-            if (this.posY + 2*this.h/5 <= this.platformCollision.y2) {
-                this.posY = this.platformCollision.y2 - this.h/2 - 1;
-                // this.velY = 0;
+            if (this.posX - this.w/4 >= this.platformCollision.x1) {
+                this.posX = this.platformCollision.x1 + this.w/2 + 1;
+                this.velX = 0;
             }
             else {
-                this.posX = this.platformCollision.x1 + this.w/2;
-                this.velX = 0;
+                this.posY = this.platformCollision.y2 - this.h/2 - 1;
+                if (this.velY > 0) this.velY = 0;
             }
         }
 
@@ -212,8 +212,8 @@ class Player{
         else if (this.collisionTOP && this.collisionRIGHT && !this.collisionLEFT) {
             // Enough to be up
             if (this.posY - 2*this.h/5 <= this.platformCollision.y1) {
-                this.posX = this.platformCollision.x2 - this.w/2;
-                // this.velX = 0;
+                this.posX = this.platformCollision.x2 - this.w/2 - 1;
+                this.velX = 0;
             }
             else {
                 this.posY = this.platformCollision.y1 + this.h/2 + 3;
@@ -226,13 +226,26 @@ class Player{
             // Enough to be up
             if (this.posY - 2*this.h/5 <= this.platformCollision.y1) {
                 this.posX = this.platformCollision.x1 + this.w/2;
-                // this.velX = 0;
+                this.velX = 0;
             }
             else {
                 this.posY = this.platformCollision.y1 + this.h/2 + 3;
                 // this.velY = 0;
             }
         }
+
+        // Only Right
+        else if (!this.collisionTOP && !this.isGrounded && !this.collisionLEFT && this.collisionRIGHT) {
+            this.velX = 0;
+            this.posX = this.platformCollision.x2 - this.w/2 - 1;
+        }
+
+        // Only Left
+        else if (!this.collisionTOP && !this.isGrounded && this.collisionLEFT && !this.collisionRIGHT) {
+            this.velX = 0;
+            this.posX = this.platformCollision.x1 + this.w/2 + 1;
+        }
+
         let leftRight = (this.collisionRIGHT && this.collisionLEFT) || 
         (!this.collisionLEFT && !this.collisionRIGHT);
 
@@ -264,13 +277,16 @@ class Player{
         //     this.walls[h].show();
         // }
 
-        if (!this.isGrounded) this.velY += this.gravity;
+        if (!this.isGrounded) {
+            this.velY += this.gravity;
+        } 
 
         if (this.isGrounded && leftRight) {
             this.posY = this.platformCollision.y2 - this.h/2
             this.velY = 0
         }
         this.show();
+        
     }
 
     update_other() {
